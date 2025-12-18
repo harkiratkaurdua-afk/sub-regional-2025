@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sub Regional Conference 2025 - Professional Event System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .fade-in { animation: fadeIn 0.5s ease-out; }
+        .slide-in { animation: slideIn 0.6s ease-out; }
+        .pulse-animation { animation: pulse 2s infinite; }
+        .gradient-bg { background: linear-gradient(135deg, #1e3a8a 0%, #4c1d95 100%); }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        #qr-reader { width: 100%; }
+        #qr-reader__dashboard_section_csr button {
+            background: #2563eb !important;
+            color: white !important;
+            padding: 12px 24px !important;
+            border-radius: 8px !important;
+            font-weight: 600 !important;
+        }
+        .flow-node {
+            transition: all 0.3s ease;
+        }
+        .flow-node:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .stat-card {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+        .stat-card:hover::before {
+            left: 100%;
+        }
+        .nav-container {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        .nav-container table, .nav-container td, .nav-container a {
+            all: unset;
+            display: revert;
+        }
+        .nav-container table { border-collapse: collapse; }
+        .nav-container td { padding: 20px !important; }
+        .nav-container a {
+            cursor: pointer;
+            color: #000;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        @keyframes scroll {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-50%); }
+        }
+        .achievement-scroll {
+            animation: scroll 20s linear infinite;
+        }
+        .achievement-container:hover .achievement-scroll {
+            animation-play-state: paused;
+        }
+        .flow-arrow {
+            width: 2px;
+            height: 40px;
+            background: linear-gradient(to bottom, #3b82f6, transparent);
+            margin: 10px auto;
+            position: relative;
+        }
+        .flow-arrow::after {
+            content: '▼';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #3b82f6;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <!-- Header -->
+    <header class="gradient-bg text-white shadow-2xl" style="margin: -20px 0;">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex items-center justify-between">
+                <div class="container mx-auto px-4 py-6">
+                    <div><img border="0" src="Logo.png" width="30%" height="auto" alt="Logo"></div>            
+                </div>
+                <div class="flex flex-col items-end space-y-2">
+                    <div id="updateIndicator">
+                        <span class="text-blue-200 text-sm">● Live</span>
+                    </div>
+                    <button id="authBtn" onclick="toggleAuth()" class="bg-white text-blue-900 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-50 transition">
+                        <nobr>Committee Login</nobr>
+                    </button>
+                    <p id="lastRefreshTime" class="text-xs text-blue-300"></p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <div class="nav-container" style="text-align: justify;">
+        <table style="text-align: left;">
+            <tr>
+                <td style="padding: 20px;"><a href="index.html"><b>Home</b></a></td>
+              
+                <td style="padding: 20px;"><a href="team.html"><b>Team</b></a></td>
+                               <td style="padding: 20px;"><a href="enquiry.html"><b>Enquire Us</b></a></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="container mx-auto px-4 py-8">
+        <!-- Public Dashboard -->
+        <div id="publicDashboard">
+            <!-- AI-Enhanced Visual Process Flow -->
+            <div class="bg-white rounded-xl shadow-2xl p-8 mb-8 fade-in">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">
+                    🎯 Event Registration Process Flow
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <!-- Step 1 -->
+                    <div class="flow-node bg-gradient-to-br from-blue-500 to-blue-600 text-white p-6 rounded-xl text-center">
+                        <div class="text-5xl mb-3">📝</div>
+                        <h3 class="font-bold text-lg mb-2">Step 1</h3>
+                        <p class="text-sm">Online Registration</p>
+                        <div class="mt-3 text-2xl font-bold" id="flow-total">0</div>
+                    </div>
+                    
+                    <!-- Arrow -->
+                    <div class="hidden md:flex items-center justify-center">
+                        <div class="text-4xl text-blue-500">→</div>
+                    </div>
+                    
+                    <!-- Step 2 -->
+                    <div class="flow-node bg-gradient-to-br from-green-500 to-green-600 text-white p-6 rounded-xl text-center">
+                        <div class="text-5xl mb-3">📧</div>
+                        <h3 class="font-bold text-lg mb-2">Step 2</h3>
+                        <p class="text-sm">QR Code Email</p>
+                        <div class="mt-3 text-2xl font-bold" id="flow-email">0</div>
+                    </div>
+                    
+                    <!-- Arrow -->
+                    <div class="hidden md:flex items-center justify-center">
+                        <div class="text-4xl text-green-500">→</div>
+                    </div>
+                    
+                    <!-- Step 3 -->
+                    <div class="flow-node bg-gradient-to-br from-purple-500 to-purple-600 text-white p-6 rounded-xl text-center">
+                        <div class="text-5xl mb-3">🎟️</div>
+                        <h3 class="font-bold text-lg mb-2">Step 3</h3>
+                        <p class="text-sm">Event Check-in</p>
+                        <div class="mt-3 text-2xl font-bold" id="flow-checkin">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Cards with Icons -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8 fade-in">
+                <div class="stat-card bg-white rounded-xl shadow-lg p-6 border-l-4 border-blue-500 transform hover:scale-105 transition">
+                    <div class="flex items-center justify-between mb-2">
+                        <p class="text-gray-600 text-sm font-semibold">Total Registrations</p>
+                        <span class="text-4xl">👥</span>
+                    </div>
+                    <p class="text-4xl font-bold text-gray-800 mt-2" id="stat-total">0</p>
+                    <p class="text-xs text-gray-500 mt-2">All registered participants</p>
+                </div>
+                
+                <div class="stat-card bg-white rounded-xl shadow-lg p-6 border-l-4 border-green-500 transform hover:scale-105 transition">
+                    <div class="flex items-center justify-between mb-2">
+                        <p class="text-gray-600 text-sm font-semibold">20 Dec Attendance</p>
+                        <span class="text-4xl">📅</span>
+                    </div>
+                    <p class="text-4xl font-bold text-gray-800 mt-2" id="stat-day1">0</p>
+                    <p class="text-xs text-gray-500 mt-2">Day 1 venue entries</p>
+                </div>
+                
+                <div class="stat-card bg-white rounded-xl shadow-lg p-6 border-l-4 border-purple-500 transform hover:scale-105 transition">
+                    <div class="flex items-center justify-between mb-2">
+                        <p class="text-gray-600 text-sm font-semibold">21 Dec Attendance</p>
+                        <span class="text-4xl">📅</span>
+                    </div>
+                    <p class="text-4xl font-bold text-gray-800 mt-2" id="stat-day2">0</p>
+                    <p class="text-xs text-gray-500 mt-2">Day 2 venue entries</p>
+                </div>
+                
+                <div class="stat-card bg-white rounded-xl shadow-lg p-6 border-l-4 border-orange-500 transform hover:scale-105 transition">
+                    <div class="flex items-center justify-between mb-2">
+                        <p class="text-gray-600 text-sm font-semibold">Meals Served</p>
+                        <span class="text-4xl">🍽️</span>
+                    </div>
+                    <p class="text-4xl font-bold text-gray-800 mt-2" id="stat-meals">0</p>
+                    <p class="text-xs text-gray-500 mt-2">Total lunch served</p>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <!-- Day-wise Comparison Chart -->
+                <div class="bg-white rounded-xl shadow-lg p-5 fade-in">
+                    <h3 class="text-lg font-bold text-gray-800 mb-3 flex items-center">
+                        <span class="text-xl mr-2">📊</span> Day-wise Attendance
+                    </h3>
+                    <div style="height: 180px;">
+                        <canvas id="dayChart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Activity Breakdown Chart -->
+                <div class="bg-white rounded-xl shadow-lg p-5 fade-in">
+                    <h3 class="text-lg font-bold text-gray-800 mb-3 flex items-center">
+                        <span class="text-xl mr-2">🎯</span> Activity Breakdown
+                    </h3>
+                    <div style="height: 180px;">
+                        <canvas id="activityChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Stats -->
+            <div class="bg-white rounded-xl shadow-lg p-8 fade-in">
+                <h3 class="text-2xl font-bold text-gray-800 mb-6">📋 Detailed Statistics</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="font-semibold text-lg text-blue-900 mb-4 flex items-center">
+                            <span class="text-3xl mr-3">📅</span> 20 December 2025
+                        </h4>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition">
+                                <span class="font-medium flex items-center">
+                                    <span class="text-2xl mr-3">🏛️</span> Venue Entry
+                                </span>
+                                <span class="font-bold text-blue-900 text-xl" id="day1-venue">0</span>
+                            </div>
+                            <div class="flex justify-between items-center p-4 bg-green-50 rounded-lg hover:bg-green-100 transition">
+                                <span class="font-medium flex items-center">
+                                    <span class="text-2xl mr-3">🍽️</span> Lunch Served
+                                </span>
+                                <span class="font-bold text-green-900 text-xl" id="day1-lunch">0</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-lg text-purple-900 mb-4 flex items-center">
+                            <span class="text-3xl mr-3">📅</span> 21 December 2025
+                        </h4>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition">
+                                <span class="font-medium flex items-center">
+                                    <span class="text-2xl mr-3">🏛️</span> Venue Entry
+                                </span>
+                                <span class="font-bold text-purple-900 text-xl" id="day2-venue">0</span>
+                            </div>
+                            <div class="flex justify-between items-center p-4 bg-pink-50 rounded-lg hover:bg-pink-100 transition">
+                                <span class="font-medium flex items-center">
+                                    <span class="text-2xl mr-3">🍽️</span> Lunch Served
+                                </span>
+                                <span class="font-bold text-pink-900 text-xl" id="day2-lunch">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Login Screen -->
+        <div id="loginScreen" class="hidden max-w-md mx-auto">
+            <div class="bg-white rounded-2xl shadow-2xl p-8 fade-in">
+                <div class="text-center mb-6">
+                    <div class="text-6xl mb-4">🔐</div>
+                    <h2 class="text-3xl font-bold text-gray-800">Committee Login</h2>
+                </div>
+                <input
+                    type="password"
+                    id="passwordInput"
+                    placeholder="Enter Password"
+                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg mb-4 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                />
+                <button onclick="handleLogin()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-bold transition shadow-lg mb-3">
+                    Login
+                </button>
+                <button onclick="showPublicView()" class="w-full text-blue-600 hover:text-blue-700 font-semibold">
+                    Back to Public View
+                </button>
+                <div id="loginMessage" class="mt-4 text-center"></div>
+            </div>
+        </div>
+
+        <!-- Committee Dashboard -->
+        <div id="committeeDashboard" class="hidden">
+            <!-- Navigation Tabs -->
+            <div class="bg-white rounded-xl shadow-lg p-4 mb-6 fade-in">
+                <div class="flex gap-2 flex-wrap">
+                    <button onclick="showTab('scanner')" id="tab-scanner" class="px-6 py-3 rounded-lg font-bold transition bg-blue-600 text-white">
+                        📷 QR Scanner
+                    </button>
+                    <button onclick="showTab('onspot')" id="tab-onspot" class="px-6 py-3 rounded-lg font-bold transition bg-gray-200 text-gray-700">
+                        📝 On-Spot Registration
+                    </button>
+                </div>
+            </div>
+
+            <!-- QR Scanner Tab -->
+            <div id="scanner-tab" class="fade-in">
+                <div class="max-w-3xl mx-auto bg-white rounded-2xl shadow-2xl p-8 mb-6">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center flex items-center justify-center">
+                        <span class="text-5xl mr-3">📷</span> QR Code Scanner
+                    </h2>
+                    
+                    <!-- Step 1: Select Day -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-bold text-gray-700 mb-3">Step 1: Select Day</label>
+                        <div class="grid grid-cols-2 gap-4">
+                            <button onclick="selectDay('20Dec')" id="btn-20Dec" class="py-4 rounded-lg font-bold transition shadow-lg bg-gray-200 text-gray-700 hover:bg-gray-300 flex items-center justify-center">
+                                <span class="text-2xl mr-2">📅</span> 20 December
+                            </button>
+                            <button onclick="selectDay('21Dec')" id="btn-21Dec" class="py-4 rounded-lg font-bold transition shadow-lg bg-gray-200 text-gray-700 hover:bg-gray-300 flex items-center justify-center">
+                                <span class="text-2xl mr-2">📅</span> 21 December
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Select Mode -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-bold text-gray-700 mb-3">Step 2: Select Scan Mode</label>
+                        <div class="grid grid-cols-2 gap-4">
+                            <button onclick="selectMode('venue')" id="btn-venue" class="py-4 rounded-lg font-bold transition shadow-lg bg-gray-200 text-gray-700 hover:bg-gray-300 flex items-center justify-center">
+                                <span class="text-2xl mr-2">🏛️</span> Venue Entry
+                            </button>
+                            <button onclick="selectMode('lunch')" id="btn-lunch" class="py-4 rounded-lg font-bold transition shadow-lg bg-gray-200 text-gray-700 hover:bg-gray-300 flex items-center justify-center">
+                                <span class="text-2xl mr-2">🍽️</span> Lunch
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Current Selection Display -->
+                    <div class="bg-blue-50 border-2 border-blue-500 p-4 rounded-lg mb-6 text-center">
+                        <p class="text-sm text-gray-600 mb-1">Current Selection:</p>
+                        <p class="text-xl font-bold text-blue-900" id="scanStatus">Please select day and mode</p>
+                    </div>
+
+                    <!-- Step 3: Scanner -->
+                    <div id="scannerSection" class="hidden">
+                        <label class="block text-sm font-bold text-gray-700 mb-3">Step 3: Scan QR Code</label>
+                        <div id="qr-reader" class="mb-4 rounded-lg overflow-hidden shadow-lg"></div>
+                        <button onclick="stopScanner()" class="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg font-bold transition mb-4">
+                            Stop Scanner
+                        </button>
+                    </div>
+
+                    <button onclick="startScanner()" id="startScanBtn" class="w-full bg-green-600 hover:bg-green-700 text-white py-4 rounded-lg font-bold transition shadow-lg text-lg flex items-center justify-center">
+                        <span class="text-2xl mr-2">▶️</span> Start Scanner
+                    </button>
+
+                    <!-- Scan Result -->
+                    <div id="scanResult" class="hidden mt-4"></div>
+                </div>
+            </div>
+
+            <!-- On-Spot Registration Tab -->
+            <div id="onspot-tab" class="hidden fade-in">
+                <div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-2xl p-8">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
+                        <span class="text-5xl mr-3">📝</span> On-Spot Registration
+                    </h2>
+                    <div class="space-y-4">
+                        <input type="text" id="onspot-name" placeholder="Student Name *" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+                        <input type="text" id="onspot-nro" placeholder="NRO/Members No. *" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+                        <input type="tel" id="onspot-mobile" placeholder="Mobile Number *" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+                        <input type="email" id="onspot-email" placeholder="Email *" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+                        <button onclick="registerOnSpot()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-bold transition shadow-lg">
+                            Register & Generate QR Code
+                        </button>
+                    </div>
+                    <div id="onspotResult" class="mt-4"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ICAI Achievements -->
+    <div class="achievement-container overflow-hidden container mx-auto px-4 mb-8">
+        <h3 class="text-2xl font-bold text-orange-900 mb-4">
+            🏆 ICAI Achievements
+        </h3>
+        <div class="h-40 overflow-hidden" style="margin: 0 1.5%; background: #e1e1e1; padding: 40px 20px; border-radius: 10px;">
+            <div class="achievement-scroll space-y-3" style="margin: 20px 0">
+                <p class="text-gray-700 p-3 bg-white rounded-lg shadow">✨ Asia's Largest Professional Accounting Body with over 3.8 lakh members</p>
+                <p class="text-gray-700 p-3 bg-white rounded-lg shadow">🌍 Globally recognized professional qualification with international reciprocity</p>
+                <p class="text-gray-700 p-3 bg-white rounded-lg shadow">📚 Comprehensive education and training for financial professionals since 1949</p>
+                <p class="text-gray-700 p-3 bg-white rounded-lg shadow">🎓 Over 9 lakh students pursuing CA qualification nationwide</p>
+                <p class="text-gray-700 p-3 bg-white rounded-lg shadow">💼 Trusted advisors in business, governance, and economic policy making</p>
+                <p class="text-gray-700 p-3 bg-white rounded-lg shadow">✨ Asia's Largest Professional Accounting Body with over 3.8 lakh members</p>
+                <p class="text-gray-700 p-3 bg-white rounded-lg shadow">🌍 Globally recognized professional qualification with international reciprocity</p>
+                <p class="text-gray-700 p-3 bg-white rounded-lg shadow">📚 Comprehensive education and training for financial professionals since 1949</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="gradient-bg text-white py-6 mt-8">
+        <div align="center"><img border="0" src="Logo-CA1.png" width="20%" height="auto" style="text-align: center" alt="CA Logo"></div>
+        <center>
+            <table style="text-align: center;">
+                <tr><td><p class="text-sm justify-center">SCF-53, National Bank, Ist Floor, Garha Road, Phase-1, Jalandhar<br />nicasajalandhar@gmail.com</p></td></tr>
+            </table>
+        </center>
+    </footer>
+
+    <script>
+        // ===== CONFIGURATION =====
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzS1by-Jma-2-je1ypjAv7Pmo80-FpKrohfjjCKWUALQrrOzYLbiRB32gN2UJ2WLHQf/exec';
+        const PASSWORD = 'noor@2025';
+
+        // ===== STATE =====
+        let isLoggedIn = false;
+        let selectedDay = null;
+        let selectedMode = null;
+        let scanner = null;
+        let updateInterval = null;
+        let dayChart = null;
+        let activityChart = null;
+
+        // ===== INITIALIZATION =====
+        window.onload = function() {
+            console.log('🚀 Enhanced Event Registration System Loaded!');
+            initCharts();
+            fetchStats();
+            updateInterval = setInterval(fetchStats, 30000);
+        };
+
+        // ===== CHART INITIALIZATION =====
+        function initCharts() {
+            const dayCtx = document.getElementById('dayChart').getContext('2d');
+            dayChart = new Chart(dayCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['20 Dec', '21 Dec'],
+                    datasets: [{
+                        label: 'Venue Entry',
+                        data: [0, 0],
+                        backgroundColor: 'rgba(59, 130, 246, 0.8)',
+                        borderColor: 'rgba(59, 130, 246, 1)',
+                        borderWidth: 2
+                    }, {
+                        label: 'Lunch',
+                        data: [0, 0],
+                        backgroundColor: 'rgba(16, 185, 129, 0.8)',
+                        borderColor: 'rgba(16, 185, 129, 1)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { 
+                            position: 'top',
+                            labels: {
+                                font: { size: 11 },
+                                padding: 10
+                            }
+                        }
+                    },
+                    scales: {
+                        y: { 
+                            beginAtZero: true,
+                            ticks: { font: { size: 10 } }
+                        },
+                        x: {
+                            ticks: { font: { size: 10 } }
+                        }
+                    }
+                }
+            });
+
+            const activityCtx = document.getElementById('activityChart').getContext('2d');
+            activityChart = new Chart(activityCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Day 1 Venue', 'Day 1 Lunch', 'Day 2 Venue', 'Day 2 Lunch'],
+                    datasets: [{
+                        data: [0, 0, 0, 0],
+                        backgroundColor: [
+                            'rgba(59, 130, 246, 0.8)',
+                            'rgba(16, 185, 129, 0.8)',
+                            'rgba(139, 92, 246, 0.8)',
+                            'rgba(236, 72, 153, 0.8)'
+                        ],
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { 
+                            position: 'right',
+                            labels: {
+                                font: { size: 10 },
+                                padding: 8,
+                                boxWidth: 12
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // ===== AUTH FUNCTIONS =====
+        function toggleAuth() {
+            if (isLoggedIn) {
+                handleLogout();
+            } else {
+                showLoginScreen();
+            }
+        }
+
+        function showLoginScreen() {
+            document.getElementById('publicDashboard').classList.add('hidden');
+            document.getElementById('committeeDashboard').classList.add('hidden');
+            document.getElementById('loginScreen').classList.remove('hidden');
+        }
+
+        function showPublicView() {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('committeeDashboard').classList.add('hidden');
+            document.getElementById('publicDashboard').classList.remove('hidden');
+            if (scanner) stopScanner();
+        }
+
+        async function handleLogin() {
+            const password = document.getElementById('passwordInput').value;
+            const messageDiv = document.getElementById('loginMessage');
+            
+            if (!password) {
+                messageDiv.innerHTML = '<p class="text-red-600 font-bold">Please enter password</p>';
+                return;
+            }
+
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: 'login', password: password })
+                });
+                const result = await response.json();
+                
+                if (result.success) {
+                    isLoggedIn = true;
+                    document.getElementById('authBtn').textContent = 'Logout';
+                    document.getElementById('authBtn').classList.remove('bg-white', 'text-blue-900');
+                    document.getElementById('authBtn').classList.add('bg-red-600', 'text-white');
+                    showCommitteeDashboard();
+                    messageDiv.innerHTML = '<p class="text-green-600 font-bold">✓ Login Successful!</p>';
+                } else {
+                    messageDiv.innerHTML = '<p class="text-red-600 font-bold">✗ Invalid Password</p>';
+                }
+            } catch (error) {
+                messageDiv.innerHTML = '<p class="text-red-600 font-bold">✗ Connection Error</p>';
+                console.error(error);
+            }
+        }
+
+        function handleLogout() {
+            isLoggedIn = false;
+            document.getElementById('authBtn').textContent = 'Committee Login';
+            document.getElementById('authBtn').classList.remove('bg-red-600', 'text-white');
+            document.getElementById('authBtn').classList.add('bg-white', 'text-blue-900');
+            showPublicView();
+        }
+
+        function showCommitteeDashboard() {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('publicDashboard').classList.add('hidden');
+            document.getElementById('committeeDashboard').classList.remove('hidden');
+            showTab('scanner');
+        }
+
+        // ===== TAB NAVIGATION =====
+        function showTab(tabName) {
+            document.getElementById('scanner-tab').classList.add('hidden');
+            document.getElementById('onspot-tab').classList.add('hidden');
+            
+            document.getElementById('tab-scanner').classList.remove('bg-blue-600', 'text-white');
+            document.getElementById('tab-scanner').classList.add('bg-gray-200', 'text-gray-700');
+            document.getElementById('tab-onspot').classList.remove('bg-blue-600', 'text-white');
+            document.getElementById('tab-onspot').classList.add('bg-gray-200', 'text-gray-700');
+            
+            if (tabName === 'scanner') {
+                document.getElementById('scanner-tab').classList.remove('hidden');
+                document.getElementById('tab-scanner').classList.remove('bg-gray-200', 'text-gray-700');
+                document.getElementById('tab-scanner').classList.add('bg-blue-600', 'text-white');
+            } else if (tabName === 'onspot') {
+                document.getElementById('onspot-tab').classList.remove('hidden');
+                document.getElementById('tab-onspot').classList.remove('bg-gray-200', 'text-gray-700');
+                document.getElementById('tab-onspot').classList.add('bg-blue-600', 'text-white');
+                if (scanner) stopScanner();
+            }
+        }
+
+        // ===== STATS FUNCTIONS =====
+        async function fetchStats() {
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: 'getStats' })
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    updateDashboard(data.data);
+                    document.getElementById('updateIndicator').innerHTML = '<span class="text-green-400 text-sm font-bold">● Live</span>';
+                }
+            } catch (error) {
+                console.error('Error fetching stats:', error);
+                document.getElementById('updateIndicator').innerHTML = '<span class="text-red-400 text-sm font-bold">● Offline</span>';
+            }
+        }
+
+        function updateDashboard(stats) {
+            // Update flow indicators
+            document.getElementById('flow-total').textContent = stats.totalRegistrations || 0;
+            document.getElementById('flow-email').textContent = stats.totalRegistrations || 0;
+            document.getElementById('flow-checkin').textContent = (stats.day1Venue || 0) + (stats.day2Venue || 0);
+            
+            // Update stat cards
+            document.getElementById('stat-total').textContent = stats.totalRegistrations || 0;
+            document.getElementById('stat-day1').textContent = stats.day1Venue || 0;
+            document.getElementById('stat-day2').textContent = stats.day2Venue || 0;
+            document.getElementById('stat-meals').textContent = (stats.day1Lunch || 0) + (stats.day2Lunch || 0);
+            
+            // Update detailed stats
+            document.getElementById('day1-venue').textContent = stats.day1Venue || 0;
+            document.getElementById('day1-lunch').textContent = stats.day1Lunch || 0;
+            document.getElementById('day2-venue').textContent = stats.day2Venue || 0;
+            document.getElementById('day2-lunch').textContent = stats.day2Lunch || 0;
+            
+            // Update charts
+            if (dayChart) {
+                dayChart.data.datasets[0].data = [stats.day1Venue || 0, stats.day2Venue || 0];
+                dayChart.data.datasets[1].data = [stats.day1Lunch || 0, stats.day2Lunch || 0];
+                dayChart.update();
+            }
+            
+            if (activityChart) {
+                activityChart.data.datasets[0].data = [
+                    stats.day1Venue || 0,
+                    stats.day1Lunch || 0,
+                    stats.day2Venue || 0,
+                    stats.day2Lunch || 0
+                ];
+                activityChart.update();
+            }
+            
+            const now = new Date().toLocaleTimeString();
+            document.getElementById('lastRefreshTime').textContent = `Updated: ${now}`;
+        }
+
+        // ===== SCANNER FUNCTIONS =====
+        function selectDay(day) {
+            selectedDay = day;
+            ['20Dec', '21Dec'].forEach(d => {
+                const btn = document.getElementById(`btn-${d}`);
+                btn.classList.remove('bg-blue-600', 'text-white');
+                btn.classList.add('bg-gray-200', 'text-gray-700');
+            });
+            document.getElementById(`btn-${day}`).classList.remove('bg-gray-200', 'text-gray-700');
+            document.getElementById(`btn-${day}`).classList.add('bg-blue-600', 'text-white');
+            updateScanStatus();
+        }
+
+        function selectMode(mode) {
+            selectedMode = mode;
+            ['venue', 'lunch'].forEach(m => {
+                const btn = document.getElementById(`btn-${m}`);
+                btn.classList.remove('bg-green-600', 'text-white');
+                btn.classList.add('bg-gray-200', 'text-gray-700');
+            });
+            document.getElementById(`btn-${mode}`).classList.remove('bg-gray-200', 'text-gray-700');
+            document.getElementById(`btn-${mode}`).classList.add('bg-green-600', 'text-white');
+            updateScanStatus();
+        }
+
+        function updateScanStatus() {
+            const status = document.getElementById('scanStatus');
+            if (selectedDay && selectedMode) {
+                const dayText = selectedDay === '20Dec' ? '20 Dec' : '21 Dec';
+                const modeText = selectedMode.charAt(0).toUpperCase() + selectedMode.slice(1);
+                status.textContent = `${dayText} - ${modeText}`;
+            } else {
+                status.textContent = 'Please select day and mode';
+            }
+        }
+
+        function startScanner() {
+            if (!selectedMode || !selectedDay) {
+                alert('⚠️ Please select day and mode first!');
+                return;
+            }
+
+            document.getElementById('startScanBtn').classList.add('hidden');
+            document.getElementById('scannerSection').classList.remove('hidden');
+            
+            scanner = new Html5QrcodeScanner("qr-reader", {
+                fps: 10,
+                qrbox: { width: 250, height: 250 },
+                rememberLastUsedCamera: true
+            });
+            
+            scanner.render(onScanSuccess, onScanError);
+        }
+
+        function stopScanner() {
+            if (scanner) {
+                scanner.clear();
+                scanner = null;
+            }
+            document.getElementById('scannerSection').classList.add('hidden');
+            document.getElementById('startScanBtn').classList.remove('hidden');
+        }
+
+        async function onScanSuccess(decodedText) {
+            try {
+                const qrData = JSON.parse(decodedText);
+                
+                showScanResult('info', '⏳ Processing...');
+                
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        action: 'scanQR',
+                        qrData: decodedText,
+                        scanType: selectedMode,
+                        day: selectedDay
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showScanResult('success', `✅ Success: ${result.data.name} (${result.data.nro})`);
+                    fetchStats();
+                } else {
+                    showScanResult('error', `❌ ${result.message}`);
+                }
+                
+            } catch (error) {
+                showScanResult('error', '❌ Invalid QR code or error processing');
+            }
+        }
+
+        function onScanError(error) {
+            // Ignore scanning errors
+        }
+
+        function showScanResult(type, message) {
+            const resultDiv = document.getElementById('scanResult');
+            resultDiv.classList.remove('hidden');
+            
+            const colors = {
+                success: 'bg-green-100 border-green-500 text-green-800',
+                error: 'bg-red-100 border-red-500 text-red-800',
+                info: 'bg-blue-100 border-blue-500 text-blue-800'
+            };
+            
+            resultDiv.className = `p-6 rounded-lg border-2 ${colors[type]} font-bold text-lg`;
+            resultDiv.textContent = message;
+            
+            if (type !== 'info') {
+                setTimeout(() => {
+                    resultDiv.classList.add('hidden');
+                }, 4000);
+            }
+        }
+
+        // ===== ON-SPOT REGISTRATION =====
+        async function registerOnSpot() {
+            const name = document.getElementById('onspot-name').value;
+            const nro = document.getElementById('onspot-nro').value;
+            const mobile = document.getElementById('onspot-mobile').value;
+            const email = document.getElementById('onspot-email').value;
+            
+            if (!name || !nro || !mobile || !email) {
+                showOnspotResult('error', '❌ Please fill all fields!');
+                return;
+            }
+            
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        action: 'registerOnSpot',
+                        name, nro, mobile, email
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showOnspotResult('success', '✅ Registration successful! QR code generated.');
+                    document.getElementById('onspot-name').value = '';
+                    document.getElementById('onspot-nro').value = '';
+                    document.getElementById('onspot-mobile').value = '';
+                    document.getElementById('onspot-email').value = '';
+                    fetchStats();
+                } else {
+                    showOnspotResult('error', `❌ ${result.message}`);
+                }
+            } catch (error) {
+                showOnspotResult('error', '❌ Connection error');
+            }
+        }
+
+        function showOnspotResult(type, message) {
+            const resultDiv = document.getElementById('onspotResult');
+            const colors = {
+                success: 'bg-green-100 border-green-500 text-green-800',
+                error: 'bg-red-100 border-red-500 text-red-800'
+            };
+            
+            resultDiv.className = `p-4 rounded-lg border-2 ${colors[type]} font-bold`;
+            resultDiv.textContent = message;
+            
+            setTimeout(() => {
+                resultDiv.textContent = '';
+                resultDiv.className = '';
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
