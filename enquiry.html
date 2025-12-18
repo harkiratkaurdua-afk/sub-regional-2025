@@ -232,12 +232,86 @@
     </style>
 </head>
 <body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conference Header</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        }
+        
+        .live-indicator {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: .7;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
     <!-- Header -->
-    <header class="gradient-bg text-white">
-        <div class="container mx-auto px-4 py-6">
-	    <div><img border="0" src="Logo-CA1.jpeg" width="8%" height="auto" style="padding: 20px"></div>            
+    <header class="gradient-bg text-white shadow-2xl">
+        <div class="container mx-auto px-6 py-5">
+            <div class="flex items-center justify-between">
+                <!-- Left Section: Logo and Conference Title -->
+                <div class="flex items-center space-x-6">
+                    <div class="flex-shrink-0">
+                        <img src="Logo-CA1.jpeg" alt="Logo" class="h-16 w-auto object-contain">
+                    </div>
+                    <div class="border-l border-white/30 pl-6">
+                        <h1 class="text-2xl font-bold tracking-wide uppercase">
+                            Sub Regional Conference <span class="text-yellow-300">2025</span>
+                        </h1>
+                    </div>
+                </div>
+                
+                <!-- Right Section: Live Status and Login -->
+                <div class="flex flex-col items-end space-y-3">
+                    <div id="updateIndicator" class="flex items-center space-x-2">
+                        <span class="live-indicator inline-block w-2 h-2 bg-green-400 rounded-full"></span>
+                        <span class="text-green-300 text-sm font-medium">Live</span>
+                    </div>
+                    <button id="authBtn" onclick="toggleAuth()" class="bg-white text-blue-900 px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-blue-50 hover:shadow-lg transition-all duration-200 whitespace-nowrap">
+                        Committee Login
+                    </button>
+                    <p id="lastRefreshTime" class="text-xs text-blue-200"></p>
+                </div>
+            </div>
         </div>
     </header>
+
+    <script>
+        function toggleAuth() {
+            alert('Login functionality would go here');
+        }
+        
+        // Update last refresh time
+        function updateRefreshTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            document.getElementById('lastRefreshTime').textContent = `Last updated: ${timeString}`;
+        }
+        
+        // Update time immediately and then every second
+        updateRefreshTime();
+        setInterval(updateRefreshTime, 1000);
+    </script>
+</body>
+</html>
 
     <!-- Navigation -->
     <div class="nav-container" style=" text-align: justify;">
